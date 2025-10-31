@@ -16,3 +16,31 @@ class SimpleTokenizerV1:
         text = " ".join([self.int_to_str[i] for i in ids])
         text = re.sub(r'\s+([,.?!"()\'])', r'\1', text) #E
         return text
+
+def test():
+    from importlib.metadata import version
+    import tiktoken
+    tokenizer = tiktoken.get_encoding("gpt2")
+    text = "Akwirw ier"
+    # text = "Hello, do you like tea? <|endoftext|> In the sunlit terraces of someunknownPlace."
+    integers = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
+    print(integers)
+
+    strings = tokenizer.decode(integers)
+    print(strings)
+
+# def testSimpleTokenizer():
+    # tokenizer = SimpleTokenizerV1(vocab)
+    # text = """"It's the last he painted, you know," Mrs. Gisburn said with pardonable
+    # pride."""
+#     ids = tokenizer.encode(text)
+#     print(ids)
+
+def testLoad():
+    with open("the-verdict.txt", "r", encoding="utf-8") as f:
+        raw_text = f.read()
+        enc_text = tokenizer.encode(raw_text)
+        print(len(enc_text))
+
+if __name__ == "__main__":
+    testLoad()
